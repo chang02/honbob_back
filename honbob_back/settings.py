@@ -75,10 +75,18 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ORIGIN_WHITELIST = (
-    'localhost:8080',
-    '127.0.0.1:8080'
-)
+CORS_ORIGIN_ALLOW_ALL = True
+
+#CORS_ORIGIN_WHITELIST = (
+#    'localhost:8080',
+#    '127.0.0.1:8080'
+#)
+#
+# Commented out due to following error
+#
+# ERRORS:
+#?: (corsheaders.E013) Origin '127.0.0.1:8080' in CORS_ORIGIN_WHITELIST is missing scheme or netloc
+#?: (corsheaders.E013) Origin 'localhost:8080' in CORS_ORIGIN_WHITELIST is missing scheme or netloc
 
 ROOT_URLCONF = 'honbob_back.urls'
 
