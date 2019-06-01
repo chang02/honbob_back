@@ -29,7 +29,7 @@ class MatchingSerializer(serializers.ModelSerializer):
         if duration.days < 0:
             raise serializers.ValidationError("시작 시간이 종료 시간보다 늦습니다.")
 
-        if duration.days > 0 or durations.seconds > 7200:
+        if duration.days > 0 or duration.seconds > 7200:
             raise serializers.ValidationError("식사는 2시간을 초과할 수 없습니다.")
 
         if data.get('status') not in (1, 2, 3):
@@ -53,6 +53,7 @@ class ProfileSerializer(serializers.ModelSerializer):
                   'description', 'contact', 'matchings', 'requests', 'notifications')
 
     def validate(self, data):
+        import re
         phone = re.compile('01\d-\d{3,4}-\d{4}')
         if re.fullmatch(phone, data.get('contact')) == None:
             raise serializers.ValidationError("연락처가 010-1234-5678 형태로 입력되지 않았습니다.")
