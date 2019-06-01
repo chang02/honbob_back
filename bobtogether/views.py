@@ -2,9 +2,18 @@ from rest_framework import permissions, generics, mixins
 from .serializers import *
 from .models import *
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.response import Response
 from django.core.exceptions import PermissionDenied
 
 # Create your views here.
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+class UserDetails(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
 class RestaurantFilterBackend(DjangoFilterBackend):
     def filter_queryset(self, request, queryset, view):
         req_name = request.GET['name'] if 'name' in request.GET else ''

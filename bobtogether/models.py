@@ -14,7 +14,7 @@ class Profile(models.Model):
         (1, 'Male'),
         (2, 'Female'),
     )
-    gender = models.PositiveIntegerField(choices=GENDER)
+    gender = models.PositiveIntegerField(choices=GENDER, default = 1)
     age = models.PositiveIntegerField(default = 20)
     school = models.CharField(default = 'Seoul National University', max_length = 50)
     major = models.CharField(default = '', max_length = 30)
