@@ -1,0 +1,30 @@
+/profiles/
+POST, GET
+
+/profile/<int:pk>/
+PUT(PATCH), GET
+# 해당 프로파일의 모든 matching, 모든 request는 각각 matchings, requests 항목으로 접속 가능
+
+/profile/self/
+GET
+
+/restaurants/ #optional# ?name=식당이름&description=소개&menu=메뉴&location=위치
+POST, GET(식당이름, 소개, 메뉴, 위치 키워드 포함여부로 필터링 가능)
+
+/restaurant/<int:pk>/
+PUT(PATCH), GET, DELETE
+
+/matchings/ #optional# ?restaurant=<id>&matchingMessage=메시지
+POST, GET(식당 id, 매칭 메시지로 필터링 가능)
+
+/matching/<int:pk>/
+PUT(PATCH), GET, DELETE
+
+/requests/
+POST, GET
+
+/request/<int:pk>/
+PUT(PATCH), GET, DELETE
+
+/notification/<int:pk>/
+GET, DELETE

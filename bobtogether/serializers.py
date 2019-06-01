@@ -4,29 +4,48 @@ from rest_framework import serializers
 class RestaurantSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Restaurant
-        fields = ('id', 'name', 'description', 'menu', 'location', 'times')
+        fields = ('id', 'name', 'description', 'menu', 'location', 'hours')
 
 class MatchingRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = MatchingRequest
-        fields = ('id', 'user', 'matching', 'requestMessage', 'status')
+        fields = ('id', 'user', 'matching', 'requestMessage')
 
 class MatchingSerializer(serializers.ModelSerializer):
     requests = MatchingRequestSerializer(many = True, read_only = True)
 
     class Meta:
         model = Matching
-        fields = ('id', 'owner', 'restaurant', 'times', 'requestMessage',
-                  'filter', 'totalNumber', 'status', 'requests')
+        fields = ('id', 'owner', 'restaurant', 'since', 'till', 'matchingMessage',
+                  'filter', 'maxNumber', 'status', 'requests')
+
+    def validate(self, data):
+        duration = data.get('till') - data.get('since')
+        if duration.days < 0:
+            raise serializers.ValidationError("시작 시간이 종료 시간보다 늦습니다.")
+
+        if duration.days > 0 or durations.seconds > 7200:
+            raise serializers.ValidationError("식사는 2시간을 초과할 수 없습니다.")
+
+        if data.get('status') not in (1, 2, 3):
+            raise serializers.ValidationError("상태의 값이 범위를 벗어났습니다.")
+
+        return data
+
+class NotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notification
+        fields = ('id', 'user', 'matching', 'message')
 
 class ProfileSerializer(serializers.ModelSerializer):
     requests = MatchingRequestSerializer(many = True, read_only = True)
     matchings = MatchingSerializer(many = True, read_only = True)
+    notifications = NotificationSerializer(many = True, read_only = True)
 
     class Meta:
         model = Profile
         fields = ('user', 'joined', 'name', 'gender', 'age', 'school', 'major',
-                  'description', 'contact', 'matchings', 'requests')
+                  'description', 'contact', 'matchings', 'requests', 'notifications')
 
     def validate(self, data):
         phone = re.compile('01\d-\d{3,4}-\d{4}')
@@ -35,15 +54,13 @@ class ProfileSerializer(serializers.ModelSerializer):
 
         return data
 
-class TimesSerializer(serializers.ModelSerializer):
+class MatchingReviewSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Times
-        fields = ('id', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun')
+        model = MatchingReview
+        fields = ('id', 'user', 'matching', 'score', 'title', 'detail')
 
     def validate(self, data):
-        for day in ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']:
-            time = data.get(day)
-            if time >= (1 << 48) or time < 0:
-                raise serializers.ValidationError('시간 값이 범위를 벗어났습니다.')
+        if data.get('score') not in (1, 2, 3, 4, 5):
+            raise serializers.ValidationError("평점의 값이 범위를 벗어났습니다.")
 
         return data

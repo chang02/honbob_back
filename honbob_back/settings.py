@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
@@ -37,7 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'django_filters',
+    'annoying',
     'rest_framework',
     'rest_framework.authtoken',
     'rest_auth',
@@ -51,8 +51,8 @@ INSTALLED_APPS = [
     'corsheaders'
 ]
 
-ACCOUNT_LOGOUT_ON_GET = True
-ACCOUNT_EMAIL_REQUIRED = False
+SITE_ID = 1
+
 REST_USE_JWT = True
 
 REST_FRAMEWORK = {
