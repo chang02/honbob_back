@@ -37,7 +37,8 @@ class Matching(models.Model):
     maxage = models.PositiveIntegerField(default = 30)
     GENDER = (
         (1, 'Male'),
-        (2, 'Female')
+        (2, 'Female'),
+        (3, 'Any')
     )
     gender = models.PositiveIntegerField(choices=GENDER, default = 1)
     matchingMessage = models.TextField(default = '')
@@ -45,8 +46,8 @@ class Matching(models.Model):
     maxNumber = models.PositiveIntegerField(default = 2)
     STATUS = (
         (1, '모집중'),
-        (2, '만남 완료'),
-        (3, '만남 실패')
+        (2, '모집 완료'),
+        (3, '만남 완료')
     )
     status = models.PositiveIntegerField(choices=STATUS, default=1)
 
