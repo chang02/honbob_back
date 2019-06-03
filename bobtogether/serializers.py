@@ -25,15 +25,16 @@ class MatchingSerializer(serializers.ModelSerializer):
                   'filter', 'maxNumber', 'status', 'requests')
 
     def validate(self, data):
-        duration = data.get('till') - data.get('since')
-        if duration.days < 0:
-            raise serializers.ValidationError("시작 시간이 종료 시간보다 늦습니다.")
+        if data.get('till') != None and data.get('since') != None:
+            duration = data.get('till') - data.get('since')
+            if duration.days < 0:
+                raise serializers.ValidationError("시작 시간이 종료 시간보다 늦습니다.")
 
-        if duration.days > 0 or duration.seconds > 7200:
-            raise serializers.ValidationError("식사는 2시간을 초과할 수 없습니다.")
+            if duration.days > 0 or duration.seconds > 7200:
+                raise serializers.ValidationError("식사는 2시간을 초과할 수 없습니다.")
 
-        if data.get('status') not in (1, 2, 3):
-            raise serializers.ValidationError("상태의 값이 범위를 벗어났습니다.")
+            if data.get('status') not in (1, 2, 3):
+                raise serializers.ValidationError("상태의 값이 범위를 벗어났습니다.")
 
         return data
 
