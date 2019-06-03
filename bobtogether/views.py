@@ -41,8 +41,8 @@ class MatchingFilterBackend(DjangoFilterBackend):
         req_num = request.GET['maxNumber'] if 'maxNumber' in request.GET else 100
         req_minage = request.GET['minage'] if 'minage' in request.GET else 0
         req_maxage = request.GET['maxage'] if 'maxage' in request.GET else 100
-        req_sin = request.GET['since'] if 'since' in request.GET else '2019-06-05T14:00:00'
-        req_til = request.GET['till'] if 'till' in request.GET else '2020-01-01T00:00:00'
+        req_sin = request.GET['since'] if 'since' in request.GET else '2018-01-01T00:00:00'
+        req_til = request.GET['till'] if 'till' in request.GET else '2022-12-31T00:00:00'
 
         if 'gender' in request.GET:
             req_gen = request.GET['gender']
