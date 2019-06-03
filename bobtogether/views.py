@@ -4,6 +4,7 @@ from .models import *
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response
 from django.core.exceptions import PermissionDenied
+import pandas as pd
 
 # Create your views here.
 class UserList(generics.ListAPIView):
@@ -37,13 +38,32 @@ class MatchingFilterBackend(DjangoFilterBackend):
     def filter_queryset(self, request, queryset, view):
         req_res = request.GET['restaurant'] if 'restaurant' in request.GET else ''
         req_msg = request.GET['matchingMessage'] if 'matchingMessage' in request.GET else ''
-        # since, till
-        # filter(age, ...)
-        return queryset.filter(restaurant__id=req_res, matchingMessage__icontains=req_msg)
+        req_num = request.GET['maxNumber'] if 'maxNumber' in request.GET else 100
+        req_minage = request.GET['minage'] if 'minage' in request.GET else 0
+        req_maxage = request.GET['maxage'] if 'maxage' in request.GET else 100
+        req_sin = request.GET['since'] if 'since' in request.GET else '2018-01-01T00:00:00'
+        req_til = request.GET['till'] if 'till' in request.GET else '2020-01-01T00:00:00'
+
+        if 'gender' in request.GET:
+            req_gen = request.GET['gender']
+            return queryset.filter(restaurant__name__icontains=req_res, matchingMessage__icontains=req_msg,
+                                maxNumber__lte=int(req_num), minage__gte=int(req_minage), maxage__lte=int(req_maxage),
+                                gender=int(req_gen),
+                                since__date__gte=pd.to_datetime(req_sin).date(), till__date__lte=pd.to_datetime(req_til).date())
+                                #since__time__range=(pd.to_datetime(req_sin).time(), pd.to_datetime(req_til).time()))
+        else:
+            return queryset.filter(restaurant__name__icontains=req_res, matchingMessage__icontains=req_msg,
+                                maxNumber__lte=int(req_num), minage__gte=int(req_minage), maxage__lte=int(req_maxage),
+                                since__date__gte=pd.to_datetime(req_sin).date(), till__date__lte=pd.to_datetime(req_til).date())
+                                #since__time__range=(pd.to_datetime(req_sin).time(), pd.to_datetime(req_til).time()))
+
 
 class MatchingList(generics.ListCreateAPIView):
     queryset = Matching.objects.all()
     serializer_class = MatchingSerializer
+    filter_backends = (MatchingFilterBackend,)
+    filterset_fields = ('restaurant', 'matchingMessage', 'number',
+                        'age', 'gender', 'since', 'utill')
 
 class MatchingDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = Matching.objects.all()

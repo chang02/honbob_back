@@ -33,6 +33,13 @@ class Matching(models.Model):
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, null=False)
     since = models.DateTimeField(default = datetime.now)
     till = models.DateTimeField(default = datetime.now)
+    minage = models.PositiveIntegerField(default = 20)
+    maxage = models.PositiveIntegerField(default = 30)
+    GENDER = (
+        (1, 'Male'),
+        (2, 'Female')
+    )
+    gender = models.PositiveIntegerField(choices=GENDER, default = 1)
     matchingMessage = models.TextField(default = '')
     filter = models.TextField(default = '')
     maxNumber = models.PositiveIntegerField(default = 2)
