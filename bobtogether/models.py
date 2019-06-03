@@ -37,16 +37,21 @@ class Matching(models.Model):
     filter = models.TextField(default = '')
     maxNumber = models.PositiveIntegerField(default = 2)
     STATUS = (
-        (1, 'wait for matching'),
-        (2, 'complete recruiting'),
-        (3, 'complete meeting')
+        (1, '모집중'),
+        (2, '만남 완료'),
+        (3, '만남 실패')
     )
-    status = models.PositiveIntegerField(choices=STATUS)
+    status = models.PositiveIntegerField(choices=STATUS, default=1)
 
 class MatchingRequest(models.Model):
     user = models.ForeignKey(Profile, related_name='requests', on_delete=models.CASCADE, null=False)
     matching = models.ForeignKey(Matching, related_name='requests', on_delete=models.CASCADE, null=False)
     requestMessage = models.TextField(default = '')
+    STATUS = (
+        (1, '수락 대기중'),
+        (2, '수락됨'),
+    )
+    status = models.PositiveIntegerField(choices=STATUS, default=1)
 
 class Notification(models.Model):
     user = models.ForeignKey(Profile, related_name='notifications', on_delete=models.CASCADE, null=False)
