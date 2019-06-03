@@ -14,7 +14,7 @@ class RestaurantSerializer(serializers.HyperlinkedModelSerializer):
 class MatchingRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = MatchingRequest
-        fields = ('id', 'user', 'matching', 'requestMessage')
+        fields = ('id', 'user', 'matching', 'requestMessage', 'status')
 
 class MatchingSerializer(serializers.ModelSerializer):
     requests = MatchingRequestSerializer(many = True, read_only = True)
