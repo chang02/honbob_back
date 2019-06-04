@@ -40,7 +40,7 @@ class Matching(models.Model):
         (2, 'Female'),
         (3, 'Any')
     )
-    gender = models.PositiveIntegerField(choices=GENDER, default = 1)
+    gender = models.PositiveIntegerField(choices=GENDER, default = 3)
     matchingMessage = models.TextField(default = '')
     keyword = models.TextField(default = '')
     maxNumber = models.PositiveIntegerField(default = 2)

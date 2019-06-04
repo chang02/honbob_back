@@ -22,7 +22,7 @@ class MatchingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Matching
         fields = ('id', 'owner', 'restaurant', 'since', 'till', 'matchingMessage',
-                  'keyword', 'maxNumber', 'status', 'requests')
+                  'keyword', 'maxNumber', 'status', 'requests', 'gender', 'minage', 'maxage', 'keyword')
 
     def validate(self, data):
         if data.get('till') != None and data.get('since') != None:
