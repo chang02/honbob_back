@@ -42,7 +42,7 @@ class Matching(models.Model):
     )
     gender = models.PositiveIntegerField(choices=GENDER, default = 1)
     matchingMessage = models.TextField(default = '')
-    filter = models.TextField(default = '')
+    keyword = models.TextField(default = '')
     maxNumber = models.PositiveIntegerField(default = 2)
     STATUS = (
         (1, '모집중'),

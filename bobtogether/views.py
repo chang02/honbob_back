@@ -43,17 +43,23 @@ class MatchingFilterBackend(DjangoFilterBackend):
         req_maxage = request.GET['maxage'] if 'maxage' in request.GET else 100
         req_sin = request.GET['since'] if 'since' in request.GET else '2018-01-01T00:00:00'
         req_til = request.GET['till'] if 'till' in request.GET else '2022-12-31T00:00:00'
+        req_key = request.GET['keyword'] if 'keyword' in request.GET else ''
 
         if 'gender' in request.GET:
             req_gen = request.GET['gender']
-            return queryset.filter(restaurant__name__icontains=req_res, matchingMessage__icontains=req_msg,
-                                maxNumber__lte=int(req_num), minage__gte=int(req_minage), maxage__lte=int(req_maxage),
-                                gender=int(req_gen),
-                                since__range=(req_sin, req_til), till__range=(req_sin, req_til))
+            if(int(req_gen) == 3):
+                return queryset.filter(restaurant__name__icontains=req_res, matchingMessage__icontains=req_msg,
+                                    maxNumber__lte=int(req_num), minage__gte=int(req_minage), maxage__lte=int(req_maxage),
+                                    since__range=(req_sin, req_til), till__range=(req_sin, req_til), keyword__icontains=req_key)
+            else:
+                return queryset.filter(restaurant__name__icontains=req_res, matchingMessage__icontains=req_msg,
+                                    maxNumber__lte=int(req_num), minage__gte=int(req_minage), maxage__lte=int(req_maxage),
+                                    gender=int(req_gen),
+                                    since__range=(req_sin, req_til), till__range=(req_sin, req_til), keyword__icontains=req_key)
         else:
             return queryset.filter(restaurant__name__icontains=req_res, matchingMessage__icontains=req_msg,
                                 maxNumber__lte=int(req_num), minage__gte=int(req_minage), maxage__lte=int(req_maxage),
-                                since__range=(req_sin, req_til), till__range=(req_sin, req_til))
+                                since__range=(req_sin, req_til), till__range=(req_sin, req_til), keyword__icontains=req_key)
 
 
 class MatchingList(generics.ListCreateAPIView):
