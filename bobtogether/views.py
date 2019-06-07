@@ -76,8 +76,12 @@ class MatchingDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = Matching.objects.all()
     serializer_class = MatchingSerializer
 
-class MatchingRequestList(generics.ListCreateAPIView):
+class MatchingRequestList(generics.ListAPIView):
     queryset = MatchingRequest.objects.all()
+    serializer_class = MatchingRequestRecursiveSerializer
+
+class MatchingRequestCreate(generics.CreateAPIView):
+    queryset = Matching.objects.all()
     serializer_class = MatchingRequestSerializer
 
 class MatchingRequestDetails(generics.RetrieveUpdateDestroyAPIView):
