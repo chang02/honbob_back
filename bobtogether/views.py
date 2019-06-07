@@ -61,12 +61,16 @@ class MatchingFilterBackend(DjangoFilterBackend):
                                     since__range=(req_sin, req_til), till__range=(req_sin, req_til), keyword__icontains=req_key)
 
 
-class MatchingList(generics.ListCreateAPIView):
+class MatchingList(generics.ListAPIView):
+    queryset = Matching.objects.all()
+    serializer_class = MatchingRecursiveSerializer
+    filter_backends = (MatchingFilterBackend,)
+    filterset_fields = ('restaurant', 'matchingMessage', 'maxNumber',
+                        'minage', 'maxage', 'gender', 'since', 'till')
+
+class MatchingCreate(generics.CreateAPIView):
     queryset = Matching.objects.all()
     serializer_class = MatchingSerializer
-    filter_backends = (MatchingFilterBackend,)
-    filterset_fields = ('restaurant', 'matchingMessage', 'number',
-                        'age', 'gender', 'since', 'utill')
 
 class MatchingDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = Matching.objects.all()
