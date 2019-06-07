@@ -16,6 +16,15 @@ class MatchingRequestSerializer(serializers.ModelSerializer):
         model = MatchingRequest
         fields = ('id', 'user', 'matching', 'requestMessage', 'status')
 
+class MatchingRecursiveSerializer(serializers.ModelSerializer):
+    requests = MatchingRequestSerializer(many = True, read_only = True)
+
+    class Meta:
+        depth = 1
+        model = Matching
+        fields = ('id', 'owner', 'restaurant', 'since', 'till', 'matchingMessage',
+                  'keyword', 'maxNumber', 'status', 'requests', 'gender', 'minage', 'maxage', 'keyword')
+
 class MatchingSerializer(serializers.ModelSerializer):
     requests = MatchingRequestSerializer(many = True, read_only = True)
 
