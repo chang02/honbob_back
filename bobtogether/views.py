@@ -103,7 +103,7 @@ class ProfileDetails(generics.RetrieveUpdateAPIView):
 class ProfileCurrent(generics.GenericAPIView):
     def get(self, request, format = None):
         if request.user.is_authenticated:
-            return Response(ProfileRecursiveSerializer(request.user.profile).data)
+            return Response(ProfileSerializer(request.user.profile).data)
         else:
             raise PermissionDenied('Not logged in.')
 
