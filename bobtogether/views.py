@@ -111,6 +111,14 @@ class ProfileCurrent(generics.GenericAPIView):
         else:
             raise PermissionDenied('Not logged in.')
 
+class NotificationList(generics.ListAPIView):
+    queryset = Notification.objects.all()
+    serializer_class = NotificationSerializer
+
+class NotificationCreate(generics.CreateAPIView):
+    queryset = Notification.objects.all()
+    serializer_class = NotificationSerializer
+
 class NotificationDetails(generics.RetrieveDestroyAPIView):
     queryset = Notification.objects.all()
     serializer_class = NotificationSerializer
