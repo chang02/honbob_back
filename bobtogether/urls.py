@@ -15,5 +15,7 @@ urlpatterns = [
     path('requests/', views.MatchingRequestList.as_view()),
     path('request/', views.MatchingRequestCreate.as_view()),
     path('request/<int:pk>/', views.MatchingRequestDetails.as_view()),
-    path('notification/<int:pk>/', views.NotificationDetails.as_view())
+    path('notification/<int:pk>/', views.NotificationDetails.as_view()),
+    path('notification/', views.NotificationCreate.as_view()),
+    path('notifications/', views.NotificationList.as_view())
 ]

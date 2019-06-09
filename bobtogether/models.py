@@ -65,6 +65,7 @@ class Notification(models.Model):
     user = models.ForeignKey(Profile, related_name='notifications', on_delete=models.CASCADE, null=False)
     matching = models.ForeignKey(Matching, on_delete=models.SET_NULL, null=True)
     message = models.TextField(default = '')
+    ifCheck = models.BooleanField(default = False)
 
 class MatchingReview(models.Model):
     user = models.ForeignKey(Profile, related_name='reviews', on_delete=models.CASCADE, null=False)

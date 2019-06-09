@@ -56,7 +56,7 @@ class MatchingSerializer(serializers.ModelSerializer):
 class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notification
-        fields = ('id', 'user', 'matching', 'message')
+        fields = ('id', 'user', 'matching', 'message', "ifCheck")
 
 class ProfileSerializer(serializers.ModelSerializer):
     requests = MatchingRequestRecursiveSerializer(many = True, read_only = True)
