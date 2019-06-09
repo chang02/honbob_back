@@ -31,6 +31,14 @@ class MatchingRecursiveSerializer(serializers.ModelSerializer):
         fields = ('id', 'owner', 'restaurant', 'since', 'till', 'matchingMessage',
                   'keyword', 'maxNumber', 'status', 'requests', 'gender', 'minage', 'maxage', 'keyword')
 
+class MatchingRequestRecursiveSerializer2(serializers.ModelSerializer):
+    matching = MatchingRecursiveSerializer(read_only = True)
+
+    class Meta:
+        depth = 2
+        model = MatchingRequest
+        fields = ('id', 'user', 'matching', 'requestMessage', 'status')
+
 class MatchingSerializer(serializers.ModelSerializer):
     requests = MatchingRequestSerializer(many = True, read_only = True)
 
@@ -59,7 +67,7 @@ class NotificationSerializer(serializers.ModelSerializer):
         fields = ('id', 'user', 'matching', 'message')
 
 class ProfileSerializer(serializers.ModelSerializer):
-    requests = MatchingRequestRecursiveSerializer(many = True, read_only = True)
+    requests = MatchingRequestRecursiveSerializer2(many = True, read_only = True)
     matchings = MatchingRecursiveSerializer(many = True, read_only = True)
     notifications = NotificationSerializer(many = True, read_only = True)
 
